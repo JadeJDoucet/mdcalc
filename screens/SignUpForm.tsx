@@ -1,21 +1,21 @@
 import React from 'react';
 import { View, TextInput, Text, StyleSheet, Pressable } from 'react-native';
-import { useAuth } from '../contexts/AuthContext';
+import useUserStore from '../stores/userStore'; // Import the Zustand store
 
 const SignUpForm = () => {
   const {
-    user,
-    updateUser,
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    address,
     setFirstName,
     setLastName,
     setEmail,
     setPhoneNumber,
     setAddress,
-  } = useAuth();
-
-  const handleSignUp = () => {
-    updateUser();
-  };
+    updateUser,
+  } = useUserStore();
 
   return (
     <View style={styles.container}>
@@ -24,7 +24,7 @@ const SignUpForm = () => {
         <Text style={styles.label}>First Name</Text>
         <TextInput
           autoComplete="name"
-          defaultValue={user.firstName}
+          defaultValue={firstName}
           onChangeText={setFirstName}
           style={styles.input}
           returnKeyType="next"
@@ -34,7 +34,7 @@ const SignUpForm = () => {
         <Text style={styles.label}>Last Name</Text>
         <TextInput
           autoComplete="family-name"
-          defaultValue={user.lastName}
+          defaultValue={lastName}
           onChangeText={setLastName}
           style={styles.input}
           returnKeyType="next"
@@ -45,7 +45,7 @@ const SignUpForm = () => {
         <Text style={styles.label}>Email</Text>
         <TextInput
           autoComplete="email"
-          defaultValue={user.email}
+          defaultValue={email}
           onChangeText={setEmail}
           style={styles.input}
           returnKeyType="next"
@@ -55,7 +55,7 @@ const SignUpForm = () => {
         <Text style={styles.label}>Phone Number</Text>
         <TextInput
           autoComplete="tel"
-          defaultValue={user.phoneNumber}
+          defaultValue={phoneNumber}
           onChangeText={setPhoneNumber}
           style={styles.input}
           keyboardType="numeric"
@@ -66,13 +66,13 @@ const SignUpForm = () => {
         <Text style={styles.label}>Address</Text>
         <TextInput
           autoComplete="street-address"
-          defaultValue={user.address}
+          defaultValue={address}
           onChangeText={setAddress}
           style={styles.input}
           returnKeyType="done"
         />
       </View>
-      <Pressable style={styles.submit} onPress={() => handleSignUp()}>
+      <Pressable style={styles.submit} onPress={updateUser}>
         <Text>Submit</Text>
       </Pressable>
     </View>
