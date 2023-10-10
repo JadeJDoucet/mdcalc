@@ -1,30 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, TextInput, Text, StyleSheet, Pressable } from 'react-native';
-
-const DEFAULT_USER = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  phoneNumber: '',
-  address: '',
-};
+import useUserStore from '../stores/userStore'; // Import the Zustand store
 
 const SignUpForm = () => {
-  const [user, setUser] = useState(DEFAULT_USER);
-
-  const handleInputChange = (
-    field: keyof typeof DEFAULT_USER,
-    value: string,
-  ) => {
-    setUser(prevUser => ({
-      ...prevUser,
-      [field]: value,
-    }));
-  };
-
-  const handleSignUp = () => {
-    // TODO: Implement signup logic
-  };
+  const {
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    address,
+    setFirstName,
+    setLastName,
+    setEmail,
+    setPhoneNumber,
+    setAddress,
+    updateUser,
+  } = useUserStore();
 
   return (
     <View style={styles.container}>
@@ -32,45 +23,56 @@ const SignUpForm = () => {
       <View style={styles.inputContainer}>
         <Text style={styles.label}>First Name</Text>
         <TextInput
-          value={user.firstName}
-          onChangeText={text => handleInputChange('firstName', text)}
+          autoComplete="name"
+          defaultValue={firstName}
+          onChangeText={setFirstName}
           style={styles.input}
+          returnKeyType="next"
         />
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Last Name</Text>
         <TextInput
-          value={user.lastName}
-          onChangeText={text => handleInputChange('lastName', text)}
+          autoComplete="family-name"
+          defaultValue={lastName}
+          onChangeText={setLastName}
           style={styles.input}
+          returnKeyType="next"
         />
       </View>
       <Text style={styles.heading}>Contact Information</Text>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Email</Text>
         <TextInput
-          value={user.email}
-          onChangeText={text => handleInputChange('email', text)}
+          autoComplete="email"
+          defaultValue={email}
+          onChangeText={setEmail}
           style={styles.input}
+          returnKeyType="next"
         />
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Phone Number</Text>
         <TextInput
-          value={user.phoneNumber}
-          onChangeText={text => handleInputChange('phoneNumber', text)}
+          autoComplete="tel"
+          defaultValue={phoneNumber}
+          onChangeText={setPhoneNumber}
           style={styles.input}
+          keyboardType="numeric"
+          returnKeyType="next"
         />
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Address</Text>
         <TextInput
-          value={user.address}
-          onChangeText={text => handleInputChange('address', text)}
+          autoComplete="street-address"
+          defaultValue={address}
+          onChangeText={setAddress}
           style={styles.input}
+          returnKeyType="done"
         />
       </View>
-      <Pressable style={styles.submit} onPress={() => handleSignUp()}>
+      <Pressable style={styles.submit} onPress={updateUser}>
         <Text>Submit</Text>
       </Pressable>
     </View>
